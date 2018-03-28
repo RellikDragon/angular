@@ -1,36 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 import { Document} from './document';
+import { DocumentService} from './document.service';
 
 @Component({
   moduleId: module.id,
   selector: 'documents',
   templateUrl: 'documents.component.html',
-  styleUrls: ['documents.component.scss']
+  styleUrls: ['documents.component.scss'],
+  providers: [ DocumentService ],
 })
-export class DocumentsComponent {
+export class DocumentsComponent implements OnInit {
   pageTitle: string = "Document Dashboard"
-  
-  documents: Document[] = [
-    {
-      title: "My First Doc",
-      description: "asdfa asdfasd",
-      file_url: 'http://google.com',
-      updated_at: '3/21/18',
-      image_url: 'https://upload.wikimedia.org/wikipedia/commons/d/d5/Mistakes-to-avoid-when-hiring-freelancers.jpg'
-    },
-    {
-      title: "My Second Doc",
-      description: "asdfa asdfasd",
-      file_url: 'http://google.com',
-      updated_at: '3/21/18',
-      image_url: 'https://upload.wikimedia.org/wikipedia/commons/7/71/Freelancer_Illustration.png'
-    },
-    {
-      title: "My Last Doc",
-      description: "asdfa asdfasd",
-      file_url: 'http://google.com',
-      updated_at: '3/21/18',
-      image_url: 'https://www.neoncrm.com/wp-content/uploads/2017/09/accounting-graphic.png'
-    }
-  ]
+  documents: Document[];
+  errorMessage: string;
+  mode = "Observable";
+
+  constructor(
+    private documentService: DocumentService,
+    ) {}
+
+  ngOnInit() {
+    let timer = Observable.timer(0, 5000);
+    timer.subscribe(() => this.getDocuments());
+  }
+
+  getDocuments() {
+    this.documentService.getDocuments()
+        .subscribe(
+          documents => this.documents = documents,
+          error => this.errorMessage = <any>error
+        );
+  }  
 }
