@@ -1,1 +1,1 @@
-# angular
+<!-- To-Do: Restyle proposal-list.component.html so that the whole button is clickable -->
