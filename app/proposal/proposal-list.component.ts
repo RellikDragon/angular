@@ -18,7 +18,7 @@ export class ProposalListComponent implements OnInit {
 
   constructor(
     private proposalService: ProposalService,
-    private router:
+    private router: Router
     ) {}
 
   ngOnInit() {
